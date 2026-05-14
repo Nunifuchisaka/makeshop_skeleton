@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+<{$module.head}>
+
+<title><{$page.title}></title>
+<meta property="og:title" content="<{$page.title}>">
+<meta name="description" content="<{$page.description}>">
+<meta property="og:description" content="<{$page.description}>">
+</head>
+<body>
+<{$module.body_top}>
+<{$module.header}>
+
+<div id="wrapper" class="wrapper_1">
+
+  <main id="main-1">
+    <{$module.search_1}>
+
+    <nav class="breadcrumb_1" aria-label="パンくずリスト">
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="<{$url.top}>" itemprop="item">
+            <span itemprop="name">ホーム</span>
+          </a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name" aria-current="page">
+            検索結果
+          </span>
+          <meta itemprop="position" content="2" />
+        </li>
+      </ol>
+    </nav><!-- /.breadcrumb_1 -->
+
+    <header class="header_5 is_left">
+      <h1 class="header_5__h1">
+        <{if $search.keyword}>
+          <{$search.keyword}>
+        <{/if}>
+        <{if $search.category.name}>
+          <{$search.category.name}>
+        <{/if}>
+        <{if $search.price_low || $search.price_high}>
+          <{if $search.price_low}><{$search.price_low}>円<{/if}>～<{if $search.price_high}><{$search.price_high}>円<{/if}>
+        <{/if}>
+        <{if $search.original_code}>
+          <{$search.original_code}>
+        <{/if}>
+      </h1>
+    </header>
+
+    <{if 0 != $search.total_count}>
+      <div class="div_1">
+        <p>全<{$search.total_count}>件中<{$search.display_count}>件表示</p>
+        <ul>
+          <li class="<{if $search.is_sort_low_price_selected}>is_current<{/if}>">
+            <a href="<{$search.sort_low_price_url}>">価格の低い順</a>
+          </li>
+          <li class="<{if $search.is_sort_high_price_selected}>is_current<{/if}>">
+            <a href="<{$search.sort_high_price_url}>">価格の高い順</a>
+          </li>
+          <li class="<{if $search.is_sort_recommend_selected}>is_current<{/if}>">
+            <a href="<{$search.sort_recommend_url}>">おすすめ順</a>
+          </li>
+          <li class="<{if $search.is_sort_new_selected}>is_current<{/if}>">
+            <a href="<{$search.sort_new_url}>">新着順</a>
+          </li>
+        </ul>
+      </div><!-- /.div_1 -->
+    <{/if}>
+
+    <{if $search.item.has_item}>
+      <ul class="list_3">
+        <{section name=i loop=$search.item.list}>
+          <li>
+            <div class="list_3__img">
+              <a href="<{$search.item.list[i].url}>">
+                <img src="<{$search.item.list[i].image_L}>" alt="" loading="lazy">
+              </a>
+            </div>
+            <{if $search.item.list[i].icon.has_item}>
+              <div class="list_3__icons">
+                <{section name=j loop=$search.item.list[i].icon.list}>
+                  <{if $search.item.list[i].icon.list[j].image_url}>
+                    <img src="<{$search.item.list[i].icon.list[j].image_url}>" alt="">
+                  <{elseif $search.item.list[i].icon.list[j].text}>
+                    <span class="icon_4">
+                      <{$search.item.list[i].icon.list[j].text}>
+                    </span>
+                  <{/if}>
+                <{/section}>
+              </div>
+            <{/if}>
+            <{if $search.item.list[i].is_soldout || $search.item.list[i].is_sale}>
+              <div class="list_3__detail">
+                <{if $search.item.list[i].is_soldout}>
+                  <p class="is_soldout">SOLD OUT</p>
+                <{elseif $search.item.list[i].is_sale}>
+                  <p class="is_sale">SALE</p>
+                <{/if}>
+              </div>
+            <{/if}>
+            <div class="list_3__favorite">
+              <a href="<{$search.item.list[i].favorite_entry_url}>" class="favorite-icon favorite-off <{if $search.item.list[i].is_favorite}>hide<{/if}>"></a>
+              <a href="<{$search.item.list[i].favorite_remove_url}>" class="favorite-icon favorite-on <{if !$search.item.list[i].is_favorite}>hide<{/if}>"></a>
+            </div>
+            <{if $search.item.list[i].base_category.url}>
+              <p class="list_3__category">
+                <a href="<{$search.item.list[i].base_category.url}>" class="is_<{$search.item.list[i].base_category.code}>">
+                  <{$search.item.list[i].base_category.name}>
+                </a>
+              </p>
+            <{/if}>
+            <p class="list_3__name">
+              <a href="<{$search.item.list[i].url}>">
+                <{$search.item.list[i].name|escape:html}>
+              </a>
+            </p>
+            <{if $search.item.list[i].is_sale}>
+              <p class="list_3__price is_original">
+                販売価格　<{$search.item.list[i].original_price|number_format}>円<span class="tax">（税込）</span></p>
+              <p class="list_3__price is_sale">
+                販売価格　<{$search.item.list[i].price|number_format}>円<span class="tax">（税込）</span>
+                <span class="sale-discount-rate">[<{$search.item.list[i].sale_rate}>%OFF</span>]</p>
+            <{else}>
+              <p class="list_3__price">
+                販売価格　<{$search.item.list[i].price|number_format}>円<span class="tax">（税込）</span>
+              </p>
+            <{/if}>
+            <div class="review-summary-container" data-gname="<{$search.item.list[i].system_code}>" data-pid="<{$search.item.list[i].system_code}>" data-group="true" data-action="summary"></div>
+          </li>
+        <{/section}>
+      </ul>
+
+      <{if $search.pager.has_item}>
+        <ol class="pagenation_1">
+          <{section name=i loop=$search.pager.list}>
+            <{if $search.pager.list[i].is_current_page}>
+              <li class="is_current">
+                <{$search.pager.list[i].number}>
+              </li>
+            <{else}>
+              <li>
+                <a href="<{$search.pager.list[i].url}>">
+                  <{$search.pager.list[i].number}>
+                </a>
+              </li>
+            <{/if}>
+          <{/section}>
+        </ol><!-- /.pagenation_1 -->
+      <{/if}>
+
+    <{else}>
+      <div class="paragraphs_3">
+        <p>条件に一致する商品は見つかりませんでした。</p>
+      </div>
+    <{/if}>
+
+  </main>
+</div><!-- /#wrapper -->
+
+<{$module.footer}>
+</body>
+</html>

@@ -1,0 +1,134 @@
+@use "sass:math";
+
+$gothic: "ヒラギノ角ゴシック", "Hiragino Sans", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", meiryo, "ＭＳ Ｐゴシック", helvetica, arial, verdana, sans-serif;
+
+$mincho: "Hiragino Mincho ProN W3", "Hiragino Mincho ProN", "ヒラギノ明朝 ProN", "Hiragino Mincho Pro", "ヒラギノ明朝 Pro", 'Noto Serif JP', yumincho, "游明朝体", "Yu Mincho", "游明朝", serif;
+
+$mincho--bold: "Hiragino Mincho ProN W6", $mincho;
+
+$breakpoint1: 767px;
+$breakpoint2: 1050px;
+$breakpoint3: 1200px;
+
+$blue1: #0c77b9;
+$gray1: #d6d6d6;
+$gray2: #edf0f6;
+$gray3: #a0a0a0;
+$gray4: #f4f5f7; // 商品画像の座布団
+$red1: #d11a18;
+$red2: #d01919; // NEWS
+
+$site-width--pc_: 1440;
+$site-width--pc: $site-width--pc_ + 0px;
+$site-width--sp_: 750;
+$site-width--sp: $site-width--sp_ + 0px;
+
+
+@mixin fz($size: 18) {
+  font-size: math.div($size, 10) + rem;
+}
+
+@function px2vw2($px){
+  $px: math.div($px * 100, $site-width--sp_);
+  $px: round($px * 100);
+  @return math.div($px, 100) * 1vw;
+}
+
+@function px2vw1($px){
+  $px: math.div($px * 100, $site-width--pc_);
+  $px: round( $px * 100);
+  @return math.div($px, 100) * 1vw;
+}
+
+@function clamp1($px){
+  $vw: math.div($px * 100, $site-width--pc_);
+  $vw: round($vw * 100);
+  $vw: math.div($vw, 100) * 1vw;
+  $px_min: math.div($px, 1.2);
+  $px_min: round($px_min);
+  @if 0 > $px {
+    @return clamp($px * 1px, $vw, $px_min * 1px);
+  } @else {
+    @return clamp($px_min * 1px, $vw, $px * 1px);
+  }
+}
+
+@function min1($px){
+  $vw: math.div($px * 100, $site-width--pc_);
+  $vw: round( $vw * 100);
+  $vw: math.div($vw, 100) * 1vw;
+  @return min($px * 1px, $vw);
+}
+
+@function max1($px){
+  $vw: math.div($px * 100, $site-width--pc_);
+  $vw: round( $vw * 100);
+  $vw: math.div($vw, 100) * 1vw;
+  @return max($px * 1px, $vw);
+}
+
+
+$width1_: 1260;
+$width1: clamp1($width1_);
+$width2_: 570;
+$width2: px2vw2($width2_);
+$width3_: 960;
+$width3: $width3_ + 0px;
+$width4_: 1000;
+$width4: $width4_ + 0px;
+$width5: 1360px;
+$width6_: 690;
+$width6: px2vw2($width6_);
+$width7_: 900;
+$width7: clamp1($width7_);
+
+$padding1--pc_: 40;
+$padding1--pc: clamp1($padding1--pc_);
+$padding1--sp_: 40;
+$padding1--sp: px2vw2($padding1--sp_);
+
+$padding2--sp_: 30;
+$padding2--sp: px2vw2($padding2--sp_);
+
+$header_1__height--pc_: 122;
+$header_1__height--pc: clamp1($header_1__height--pc_);
+$header_1__height--sp_: 130;
+$header_1__height--sp: px2vw2($header_1__height--sp_);
+
+$button_4__height--sp: px2vw2(110);
+
+$padding3--pc_: 40 + $header_1__height--pc_;
+$padding3--pc: clamp1($padding3--pc_);
+$padding3--sp_: 40 + $header_1__height--sp_;
+$padding3--sp: px2vw2($padding3--sp_);
+
+$padding-top1--pc_: 40;
+$padding-top1--pc: $padding-top1--pc_ * 1px;
+$padding-top1--sp_: 40 + $header_1__height--sp_;
+$padding-top1--sp: px2vw2($padding-top1--sp_);
+
+$nav-1__height--pc: 60px;
+
+@mixin tablet {
+  @media (width <= ($padding1--pc_ + 1260px)) and (width >= ($breakpoint1 + 1)) {
+    @content;
+  }
+}
+
+@mixin sp {
+  @media (width <= $breakpoint1) {
+    @content;
+  }
+}
+
+@mixin pc {
+  @media (width >= ($breakpoint1 + 1)) {
+    @content;
+  }
+}
+
+@mixin landscape {
+  @media (aspect-ratio >= 16 / 7.5) {
+    @content;
+  }
+}

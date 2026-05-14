@@ -1,0 +1,11 @@
+<!-- 追加商品画像 -->
+<{if $item.add_image.has_item}>
+  <{section name=i loop=$item.add_image.list}>
+    <figure class="figure_1">
+      <img src="<{$item.add_image.list[i].image_url}>" alt="" loading="lazy">
+      <figcaption>
+        <{$item.add_image.list[i].description}>
+      </figcaption>
+    </figure>
+  <{/section}>
+<{/if}>

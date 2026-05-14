@@ -1,0 +1,48 @@
+<{if !$item.multi_image.has_item && $item.is_option_image}>
+  <div class="noimg_1">
+    <img src="/view/images/common/noimage.png" alt="">
+  </div>
+<{/if}>
+
+<{if $item.multi_image.has_item || $item.is_option_image}>
+  <div class="carousel_2">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <{section name=i loop=$item.multi_image.list}>
+          <div class="swiper-slide">
+            <a href="#image-modal" data-img="<{$item.multi_image.list[i].image_L}>" data-caption="<{$item.name|escape:html}>" data-remodal-options="hashTracking: false">
+              <img src="<{$item.multi_image.list[i].image_L}>" alt="<{$item.name|escape:html}>">
+            </a>
+          </div>
+        <{/section}>
+      </div>
+    </div>
+    <ul>
+      <{section name=i loop=$item.multi_image.list}>
+        <li><img src="<{$item.multi_image.list[i].image_L}>" alt=""></li>
+      <{/section}>
+    </ul>
+  </div><!-- /.carousel_2 -->
+<{else}>
+  <div class="carousel_2">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <a href="#image-modal" data-img="<{$item.image_L}>" data-caption="<{$item.name|escape:html}>" data-remodal-options="hashTracking: false">
+            <img src="<{$item.image_L}>" alt="<{$item.name|escape:html}>">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.carousel_2 -->
+<{/if}>
+
+<div class="js-carousel-modal" style="display: none;">
+  <button data-remodal-action="close" class="remodal-close"></button>
+  <figure class="figure_1 is_button">
+    <img class="js-modal-image" src="" alt="">
+    <figcaption class="js-modal-caption"></figcaption>
+    <button type="button" class="is_prev js-modal-prev">＜</button>
+    <button type="button" class="is_next js-modal-next">＞</button>
+  </figure>
+</div>

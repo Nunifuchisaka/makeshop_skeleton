@@ -1,0 +1,22 @@
+<!-- 在庫状況を表示する場合 -->
+<{if $item.is_stock_display}>
+  <{if $item.is_stock_unlimited}>
+    <div class="stock-wrap">
+      <p class="item-stock">在庫あり</p>
+    </div>
+  <{else}>
+    <{if $item.is_small_stock}>
+      <div class="stock-wrap">
+        <p class="item-stock">
+          残りわずか<span class="item-stock-count">／あと<{$item.stock_quantity}>個</span>
+        </p>
+      </div>
+    <{else}>
+      <div class="stock-wrap">
+        <p class="item-stock">
+          在庫あり<span class="item-stock-count">／あと<{$item.stock_quantity}>個</span>
+        </p>
+      </div>
+    <{/if}>
+  <{/if}>
+<{/if}>

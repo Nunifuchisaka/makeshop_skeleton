@@ -1,0 +1,67 @@
+<{if $new_item.has_item}>
+<section id="new" class="section_1">
+  <h2 class="section_1__h1">
+    新商品
+  </h2>
+  <ul class="list_3">
+    <{section name=i loop=$new_item.list max=4}>
+      <li>
+        <div class="list_3__img">
+          <a href="<{$new_item.list[i].url}>"><img src="<{$new_item.list[i].image_L}>" alt="" loading="lazy"></a>
+        </div>
+        <{if $new_item.list[i].icon.has_item}>
+          <div class="list_3__icons">
+            <{section name=j loop=$new_item.list[i].icon.list}>
+              <{if $new_item.list[i].icon.list[j].image_url}>
+                <img src="<{$new_item.list[i].icon.list[j].image_url}>" alt="">
+              <{elseif $new_item.list[i].icon.list[j].text}>
+                <span class="icon_4">
+                  <{$new_item.list[i].icon.list[j].text}>
+                </span>
+              <{/if}>
+            <{/section}>
+          </div>
+        <{/if}>
+        <{if $new_item.list[i].is_soldout || $new_item.list[i].is_sale}>
+          <div class="list_3__detail">
+            <{if $new_item.list[i].is_soldout}>
+              <p class="is_soldout">SOLD OUT</p>
+            <{elseif $new_item.list[i].is_sale}>
+              <p class="is_sale">SALE</p>
+            <{/if}>
+          </div>
+        <{/if}>
+        <{if $new_item.list[i].base_category.url}>
+          <p class="list_3__category">
+            <a href="<{$new_item.list[i].base_category.url}>" class="is_<{$new_item.list[i].base_category.code}>">
+              <{$new_item.list[i].base_category.name}>
+            </a>
+          </p>
+        <{/if}>
+        <p class="list_3__name">
+          <a href="<{$new_item.list[i].url}>">
+            <{$new_item.list[i].name|escape:html}>
+          </a>
+        </p>
+        <{if $new_item.list[i].is_sale}>
+          <p class="list_3__price is_original">
+            販売価格　<{$new_item.list[i].original_price|number_format}>円<span class="tax">（税込）</span>
+          </p>
+          <p class="list_3__price is_sale">
+            販売価格　<{$new_item.list[i].price|number_format}>円<span class="tax">（税込）</span>
+            <span class="sale-discount-rate">[<{$new_item.list[i].sale_rate}>%OFF</span>]
+          </p>
+        <{else}>
+          <p class="list_3__price">
+            販売価格　<{$new_item.list[i].price|number_format}>円<span class="tax">（税込）</span>
+          </p>
+        <{/if}>
+        <div class="review-summary-container" data-gname="<{$new_item.list[i].system_code}>" data-pid="<{$new_item.list[i].system_code}>" data-group="true" data-action="summary"></div>
+      </li>
+    <{/section}>
+  </ul>
+  <a href="/view/category/new" class="button_1">
+    もっと見る
+  </a>
+</section><!-- /#new.section_1 -->
+<{/if}>

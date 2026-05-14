@@ -1,0 +1,77 @@
+<section id="recommend" class="section_1">
+  <h2 class="section_1__h1">
+    おすすめ商品
+  </h2>
+  <ul class="list_3">
+    <{section name=i loop=$recommend_item.list max=4}>
+      <li>
+        <div class="list_3__img">
+          <a href="<{$recommend_item.list[i].url}>">
+            <img src="<{$recommend_item.list[i].image_L}>" alt="" alt="<{$recommend_item.list[i].name}>">
+          </a>
+        </div>
+        <{if $recommend_item.list[i].icon.has_item}>
+          <div class="list_3__icons">
+            <{section name=j loop=$recommend_item.list[i].icon.list}>
+              <{if $recommend_item.list[i].icon.list[j].image_url}>
+                <img src="<{$recommend_item.list[i].icon.list[j].image_url}>" alt="">
+              <{elseif $recommend_item.list[i].icon.list[j].text}>
+                <span class="icon_4">
+                  <{$recommend_item.list[i].icon.list[j].text}>
+                </span>
+              <{/if}>
+            <{/section}>
+          </div>
+        <{/if}>
+        <{if $recommend_item.list[i].is_soldout || $recommend_item.list[i].is_sale}>
+          <div class="list_3__detail">
+            <{if $recommend_item.list[i].is_soldout}>
+              <p class="is_soldout">SOLD OUT</p>
+            <{elseif $recommend_item.list[i].is_sale}>
+              <p class="is_sale">SALE</p>
+            <{/if}>
+          </div>
+        <{/if}>
+          <{if $recommend_item.list[i].base_category.url}>
+            <p class="list_3__category">
+              <a href="<{$recommend_item.list[i].base_category.url}>" class="is_<{$ranking_item.list[i].base_category.code}>">
+                <{$recommend_item.list[i].base_category.name}>
+              </a>
+            </p>
+          <{/if}>
+          <p class="list_3__name">
+            <a href="<{$recommend_item.list[i].url}>">
+              <{$recommend_item.list[i].name}>
+            </a>
+          </p>
+          <{if $recommend_item.list[i].is_sale}>
+            <p class="list_3__price">
+              販売価格 <span class="price"><{$recommend_item.list[i].price|number_format}></span>円<span class="tax">（税込）</span>
+                <span class="list_3__rate"><{$recommend_item.list[i].sale_rate}>%OFF</span>
+            </p>
+          <{else}>
+            <p class="list_3__price">
+              販売価格 <span class="price"><{$recommend_item.list[i].price|number_format}></span>円<span class="tax">（税込）</span>
+            </p>
+          <{/if}>
+          <{if $recommend_item.list[i].special_display}>
+            <p class="list_3__price">
+              <span class="tax"><{$recommend_item.list[i].special_display}></span>
+            </p>
+          <{/if}>
+        <{if $recommend_item.list[i].is_soldout || $recommend_item.list[i].is_sale}>
+          <ul class="tags1">
+            <{if $recommend_item.list[i].is_soldout}>
+              <li class="is_soldout">季節限定</li>
+            <{elseif $recommend_item.list[i].is_sale}>
+              <li class="is_sale">SALE</li>
+            <{/if}>
+          </ul>
+        <{/if}>
+      </li>
+    <{/section}>
+  </ul>
+  <a href="/view/category/all_items?sort=recommend" class="button_1">
+    もっと見る
+  </a>
+</section>

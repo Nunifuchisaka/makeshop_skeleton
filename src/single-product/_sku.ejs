@@ -1,0 +1,133 @@
+<!-- SKUごとの表示 -->
+<table class="sku">
+  <tr class="sku-option">
+    <th></th>
+    <th class="sku-option-title">
+      <{$item.option_sku.option1_label}>
+    </th>
+    <{if $item.option_sku.has_option2}>
+      <th class="sku-option-title">
+        <{$item.option_sku.option2_label}>
+      </th>
+    <{/if}>
+    <th></th>
+  </tr>
+  <{section name=i loop=$item.option_sku.list}>
+    <tr>
+      <td class="sku-img">
+        <{if $item.option_sku.list[i].image_S != ''}>
+          <{if $item.option_sku.list[i.index_prev].image_S != $item.option_sku.list[i].image_S}>
+            <img src="<{$item.option_sku.list[i].image_S}>" data-option-image="<{$item.option_sku.list[i].image_L}>" class="option-image" loading="lazy">
+          <{/if}>
+        <{/if}>
+      </td>
+      <td class="sku-option-name">
+        <{if $item.option_sku.list[i.index_prev].name1 != $item.option_sku.list[i].name1}>
+          <{$item.option_sku.list[i].name1}>
+        <{/if}>
+      </td>
+      <{if $item.option_sku.has_option2}>
+        <td class="sku-option-name">
+          <{$item.option_sku.list[i].name2}>
+        </td>
+      <{/if}>
+      <td class="sku-cart">
+        <!-- SKUの定期購入 -->
+        <{if $item.is_subscription_only}>
+          <{if $item.option_sku.list[i].is_soldout}>
+            <div class="favorite-wrap">
+              <div class="disabled-btn btn sku-btn">
+                売り切れ
+              </div>
+              <div class="favorite">
+                <a href="<{$item.option_sku.list[i].favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+                <a href="<{$item.option_sku.list[i].favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+              </div>
+            </div>
+          <{else}>
+            <{if $item.option_sku.list[i].is_stock_unlimited}>
+              <p class="item-stock item-stock-sku">在庫あり</p>
+            <{else}>
+              <{if $item.option_sku.list[i].is_small_stock}>
+                <p class="item-stock item-stock-sku">残りわずか<span class="item-stock-count">／あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+              <{else}>
+                <p class="item-stock item-stock-sku">在庫あり<span class="item-stock-count">／あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+              <{/if}>
+            <{/if}>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_subscription_url}>" class="subscription-only subscription-btn btn sku-btn">定期購入する</a>
+              <div class="favorite">
+                <a href="<{$item.option_sku.list[i].favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+                <a href="<{$item.option_sku.list[i].favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+              </div>
+            </div>
+          <{/if}>
+        <{elseif $item.is_subscription}>
+          <{if $item.option_sku.list[i].is_soldout}>
+            <div class="favorite-wrap">
+              <div class="disabled-btn btn sku-btn">売り切れ</div>
+              <div class="favorite">
+                <a href="<{$item.option_sku.list[i].favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+                <a href="<{$item.option_sku.list[i].favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+              </div>
+            </div>
+          <{else}>
+            <{if $item.option_sku.list[i].is_stock_unlimited}>
+              <p class="item-stock item-stock-sku">在庫あり</p>
+            <{else}>
+              <{if $item.option_sku.list[i].is_small_stock}>
+                <p class="item-stock item-stock-sku">残りわずか<span class="item-stock-count">／あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+              <{else}>
+                <p class="item-stock item-stock-sku">在庫あり<span class="item-stock-count">／あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+              <{/if}>
+            <{/if}>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_url}>" class="button_7 btn sku-btn">カートに入れる</a>
+              <div class="favorite">
+                <a href="<{$item.option_sku.list[i].favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+                <a href="<{$item.option_sku.list[i].favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+              </div>
+            </div>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_subscription_url}>" class="subscription-btn btn sku-btn">定期購入する</a>
+            </div>
+          <{/if}>
+        <{else}>
+          <div class="sku-price-wrap">
+            <p class="price">￥<{$item.option_sku.list[i].price|number_format}><span>（税込）</span></p>
+            <{if $item.option_sku.list[i].is_soldout}>
+              <div class="favorite-wrap">
+                <{if $item.is_restock_enabled}>
+                  <div><a href="<{$item.option_sku.list[i].restock_url}>" class="restock-btn btn sku-btn">再入荷お知らせ</a></div>
+                <{else}>
+                  <div class="disabled-btn btn sku-btn">売り切れ</div>
+                <{/if}>
+                <div class="favorite">
+                  <a href="<{$item.option_sku.list[i].favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+                  <a href="<{$item.option_sku.list[i].favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+                </div>
+              </div>
+            <{else}>
+              <{if $item.option_sku.list[i].is_stock_unlimited}>
+                <p class="item-stock item-stock-sku">在庫あり</p>
+              <{else}>
+                <{if $item.option_sku.list[i].is_small_stock}>
+                  <p class="item-stock item-stock-sku">残りわずか<span class="item-stock-count">／あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+                <{else}>
+                  <p class="item-stock item-stock-sku">在庫あり<span class="item-stock-count">／あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+                <{/if}>
+              <{/if}>
+            </div>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_url}>" class="button_7 btn cart-order-btn sku-btn" data-button-id="cart-order">カートに入れる</a>
+              <div class="favorite">
+                <a href="<{$item.option_sku.list[i].favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+                <a href="<{$item.option_sku.list[i].favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.option_sku.list[i].is_favorite}>hide<{/if}>"></a>
+              </div>
+            </div>
+          <{/if}>
+        <{/if}>
+      </td>
+    </tr>
+  <{/section}>
+</table>

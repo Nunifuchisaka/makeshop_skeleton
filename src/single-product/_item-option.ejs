@@ -1,0 +1,46 @@
+<!-- プルダウン表示 -->
+<div class="item-option">
+  <{$item.option_html}>
+  <%- include("_name_print") %>
+
+  <!-- プルダウン表示の定期購入 -->
+  <{if $item.is_subscription_only}>
+    <div class="modal-open">
+      <a href="<{$item.cart_entry_subscription_url}>" class="subscription-btn btn">定期購入する</a>
+      <div class="favorite">
+        <a href="<{$item.favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.is_favorite}>hide<{/if}>"></a>
+        <a href="<{$item.favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.is_favorite}>hide<{/if}>"></a>
+      </div>
+    </div>
+  <{elseif $item.is_subscription}>
+    <div class="modal-open">
+      <!-- <div class="disabled-btn btn outstock off">
+        売り切れ
+      </div> -->
+      <a href="<{$item.cart_entry_url}>" class="button_7 btn instock off">カートに入れる</a>
+      <div class="favorite">
+        <a href="<{$item.favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.is_favorite}>hide<{/if}>"></a>
+        <a href="<{$item.favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.is_favorite}>hide<{/if}>"></a>
+      </div>
+    </div>
+    <div class="modal-open">
+      <!-- <div class="disabled-btn btn outstock off">
+        売り切れ
+      </div> -->
+      <a href="<{$item.cart_entry_subscription_url}>" class="subscription-btn btn instock off">定期購入する</a>
+    </div>
+  <{else}>
+    <div class="modal-open">
+      <{if $item.is_restock_enabled}>
+        <div><a href="<{$item.restock_url}>" class="button_7 btn outstock off">再入荷のお知らせ</a></div>
+      <{else}>
+        <!-- <div class="disabled-btn btn outstock off">売り切れ</div> -->
+      <{/if}>
+      <a href="<{$item.cart_entry_url}>" class="button_7 btn cart-order-btn instock off" data-button-id="cart-order">カートに入れる</a>
+      <div class="favorite">
+        <a href="<{$item.favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.is_favorite}>hide<{/if}>"></a>
+        <a href="<{$item.favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.is_favorite}>hide<{/if}>"></a>
+      </div>
+    </div>
+  <{/if}>
+</div>

@@ -1,0 +1,47 @@
+<div id="info-list" class="table_5">
+  <table>
+    <tr>
+      <th>商品名</th>
+      <td><{$item.name|escape:html}></td>
+    </tr>
+    <{if $item.description3}>
+      <{$item.description3}>
+    <{/if}>
+    <{if $item.manufacturer}>
+      <tr>
+        <th>製造元</th>
+        <td><{$item.manufacturer|escape:html}></td>
+      </tr>
+    <{/if}>
+    <{if $item.origin_country}>
+      <tr>
+        <th>原産地</th>
+        <td><{$item.origin_country|escape:html}></td>
+      </tr>
+    <{/if}>
+    <{if $item.special_display}>
+      <tr>
+        <th>特殊表示</th>
+        <td><{$item.special_display|escape:html}></td>
+      </tr>
+    <{/if}>
+    <{if $item.is_delivery_price_display}>
+      <tr>
+        <th>目安送料</th>
+        <td><{$item.delivery_price}>円～</td>
+      </tr>
+    <{/if}>
+    <{if $item.is_member_delivery_price_display}>
+      <tr>
+        <th>目安送料</th>
+        <td><{$item.member_delivery_price}>円～</td>
+      </tr>
+    <{/if}>
+    <{if $item.is_delivery_price_message_display}>
+      <tr>
+        <th>送料について</th>
+        <td><{$item.delivery_price_message}></td>
+      </tr>
+    <{/if}>
+  </table>
+</div><!-- /#info-list.table_5 -->

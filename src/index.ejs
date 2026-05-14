@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+<{$module.head}>
+
+<meta property="og:type" content="website">
+<title><{$shop.name}></title>
+<meta property="og:title" content="<{$shop.name}>">
+<meta name="description" content="<{$page.description}>">
+<meta property="og:description" content="<{$page.description}>">
+
+<{if <%- MY_MEMBER_ID %> == $member.id || 'Developer' == $member.group_name}>
+<link rel="stylesheet" href="<%- LOCAL_PATH %>assets/css/home.css">
+<{else}>
+<link rel="stylesheet" href="<%- ASSET_PATH %>assets/css/home.css">
+<{/if}>
+</head>
+<body class="page-home">
+<{$module.body_top}>
+<{$module.header}>
+
+<div id="wrapper" class="wrapper_1">
+
+  <main id="main-1">
+    <{$module.search_1}>
+
+    <div id="keyvisual">
+      <{$shop.mainvisual}>
+    </div>
+
+    <%- include("assets/html/_news") %>
+    <%- include("assets/html/_pickup") %>
+    <%- include("assets/html/_new") %>
+    <%- include("assets/html/_honten_only") %>
+    <%- include("assets/html/_recommend") %>
+    <%- include("assets/html/_ranking") %>
+    <%- include("assets/html/_review") %>
+
+  </main>
+</div><!-- /#wrapper -->
+
+<{$module.footer}>
+
+<{if 'Developer' == $member.group_name}>
+<script src="<%- LOCAL_PATH %>assets/js/home.js" defer></script>
+<{else}>
+<script src="<%- ASSET_PATH %>assets/js/home.js" defer></script>
+<{/if}>
+</body>
+</html>

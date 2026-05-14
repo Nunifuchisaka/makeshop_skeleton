@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+<{$module.head}>
+
+<title>お知らせ｜<{$shop.name}></title>
+<meta property="og:title" content="お知らせ｜<{$shop.name}>">
+<meta name="description" content="<{$page.description}>">
+<meta property="og:description" content="<{$page.description}>">
+</head>
+<body class="archive-news">
+<{$module.body_top}>
+<{$module.header}>
+
+<div id="wrapper" class="wrapper_1">
+
+  <main id="main-1">
+    <{$module.search_1}>
+
+    <nav class="breadcrumb_1" aria-label="パンくずリスト">
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="<{$url.top}>" itemprop="item">
+            <span itemprop="name">ホーム</span>
+          </a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="item" aria-current="page">
+            <span itemprop="name">お知らせ</span>
+          </span>
+          <meta itemprop="position" content="2" />
+        </li>
+      </ol>
+    </nav>
+
+    <header class="header_5">
+      <h1 class="header_5__h1">
+        お知らせ
+      </h1>
+    </header>
+
+    <{if $news.has_item}>
+      <div class="table_1">
+        <table>
+          <{section name=i loop=$news.list}>
+            <tr>
+              <td class="date">
+                <{$news.list[i].date.year}>/<{$news.list[i].date.month}>/<{$news.list[i].date.day}>
+              </td>
+              <th>
+                <a href="<{$news.list[i].url}>"><{$news.list[i].title}></a>
+              </th>
+            </tr>
+          <{/section}>
+        </table>
+      </div><!-- /.table_1 -->
+
+      <{if $news.pager.has_item}>
+        <ol class="pagenation_1">
+          <!-- <p class="total-count">（全<span><{$news.total_count}></span>件）<{$news.display_count}>件表示</p> -->
+          <!-- <{if !$news.pager.is_first_display}>
+            <li><a href="<{$news.pager.first_url}>"><span class="btn-prev">一番前へ</span></a></li>
+          <{/if}> -->
+          <{section name=i loop=$news.pager.list}>
+            <{if $news.pager.list[i].is_current_page}>
+              <li class="is_current"><{$news.pager.list[i].number}></li>
+            <{else}>
+              <li><a href="<{$news.pager.list[i].url}>"><{$news.pager.list[i].number}></a></li>
+            <{/if}>
+          <{/section}>
+          <!-- <{if !$news.pager.is_last_display}>
+            <li><a href="<{$news.pager.last_url}>"><span class="btn-next">最後へ</span></a></li>
+          <{/if}> -->
+        </ol>
+      <{/if}>
+    <{else}>
+      <p class="empty">お知らせはありません</p>
+    <{/if}>
+
+  </main>
+</div><!-- /#wrapper -->
+
+<{$module.footer}>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<section id="news">
+  <h2 id="news__h1">
+    お知らせ
+  </h2>
+  <div id="news__1">
+    <div class="table_6">
+      <table>
+        <{section name=i loop=$latest_news.list max=3}>
+          <tr>
+            <th><{$latest_news.list[i].date.year}>/<{$latest_news.list[i].date.month}>/<{$latest_news.list[i].date.day}></th>
+            <td><a href="<{$latest_news.list[i].url}>"><{$latest_news.list[i].title}></a></td>
+          </tr>
+        <{/section}>
+      </table>
+    </div><!-- /.table_6 -->
+    <p><a href="<{$url.news}>">お知らせ一覧を見る</a></p>
+  </div><!-- /#news__1 -->
+</section>

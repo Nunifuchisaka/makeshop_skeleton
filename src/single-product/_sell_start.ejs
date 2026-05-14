@@ -1,0 +1,15 @@
+<!-- 販売予告 -->
+<{if $item.is_sell_start || $item.is_sell_end}>
+  <{if $item.is_sell_start}>
+    <dl>
+      <dt>販売開始</dt>
+      <dd><{$item.sell_start.year}>年<{$item.sell_start.month}>月<{$item.sell_start.day}>日<{$item.sell_start.hour}>：<{$item.sell_start.minute}></dd>
+    </dl>
+  <{/if}>
+  <{if $item.is_sell_end}>
+    <dl>
+      <dt>販売終了</dt>
+      <dd><{$item.sell_end.year}>年<{$item.sell_end.month}>月<{$item.sell_end.day}>日<{$item.sell_end.hour}>：<{$item.sell_end.minute}></dd>
+    </dl>
+  <{/if}>
+<{/if}>

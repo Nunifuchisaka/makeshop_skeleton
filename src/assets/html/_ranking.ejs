@@ -1,0 +1,60 @@
+<section id="ranking" class="section_1">
+  <h2 class="section_1__h1">
+    人気ランキング
+  </h2>
+  <ul class="list_3">
+    <{section name=i loop=$ranking_item.list max=4}>
+      <li>
+        <p class="list_3__rank rank-<{$ranking_item.list[i].num}>">
+          人気NO.<{$ranking_item.list[i].num}>
+        </p>
+        <div class="list_3__img">
+          <a href="<{$ranking_item.list[i].url}>">
+            <img src="<{$ranking_item.list[i].image_L}>" alt="<{$ranking_item.list[i].name}>">
+          </a>
+        </div>
+        <{if $ranking_item.list[i].icon.has_item}>
+          <div class="list_3__icons">
+            <{section name=j loop=$ranking_item.list[i].icon.list}>
+              <{if $ranking_item.list[i].icon.list[j].image_url}>
+                <img src="<{$ranking_item.list[i].icon.list[j].image_url}>" alt="">
+              <{elseif $ranking_item.list[i].icon.list[j].text}>
+                <span class="icon_4">
+                  <{$ranking_item.list[i].icon.list[j].text}>
+                </span>
+              <{/if}>
+            <{/section}>
+          </div>
+        <{/if}>
+        <{if $ranking_item.list[i].is_soldout || $ranking_item.list[i].is_sale}>
+          <div class="list_3__detail">
+            <{if $ranking_item.list[i].is_soldout}>
+              <p class="is_soldout">SOLD OUT</p>
+            <{elseif $ranking_item.list[i].is_sale}>
+              <p class="is_sale">SALE</p>
+            <{/if}>
+          </div>
+        <{/if}>
+        <{if $ranking_item.list[i].base_category.url}>
+          <p class="list_3__category">
+            <a href="<{$ranking_item.list[i].base_category.url}>" class="is_<{$ranking_item.list[i].base_category.code}>">
+              <{$ranking_item.list[i].base_category.name}>
+            </a>
+          </p>
+        <{/if}>
+        <p class="list_3__name">
+          <a href="<{$ranking_item.list[i].url}>">
+            <{$ranking_item.list[i].name}>
+          </a>
+        </p>
+        <p class="list_3__price">
+          販売価格 <span class="price"><{$ranking_item.list[i].price|number_format}></span>円<span class="tax">（税込）</span>
+        </p>
+        <div class="review-summary-container ranking-review-box" data-pid="<{$ranking_item.list[i].system_code}>" data-action="summary"></div>
+      </li>
+    <{/section}>
+  </ul>
+  <a href="/view/category/all_items" class="button_1">
+    その他の商品を見る
+  </a>
+</section>

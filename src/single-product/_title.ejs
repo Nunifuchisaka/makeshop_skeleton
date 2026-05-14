@@ -1,0 +1,36 @@
+<header>
+  <{if $item.icon.has_item}>
+    <div class="article_2__icons">
+      <{section name=i loop=$item.icon.list}>
+        <{if $item.icon.list[i].image_url}>
+          <img src="<{$item.icon.list[i].image_url}>" alt="">
+        <{elseif $item.icon.list[i].text}>
+          <span class="icon_4">
+            <{$item.icon.list[i].text}>
+          </span>
+        <{/if}>
+      <{/section}>
+    </div>
+  <{/if}>
+  <{if $item.is_soldout || $item.is_sale}>
+    <ul class="article_2__detail">
+      <{if $item.is_soldout}>
+        <li class="is_soldout">SOLD OUT</li>
+      <{elseif $item.is_sale}>
+        <li class="is_sale">SALE</li>
+      <{/if}>
+    </ul>
+  <{/if}>
+  <p class="article_2__category">
+    <a href="<{$item.base_category.url}>" class="is_<{$item.base_category.code}>">
+      <{$item.base_category.name}>
+    </a>
+  </p>
+  <h1><{$item.name|escape:html}></h1>
+</header>
+
+<{if $item.description4}>
+  <div class="article_2__content">
+    <{$item.description4}>
+  </div>
+<{/if}>

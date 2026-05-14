@@ -1,0 +1,118 @@
+<{if $item.is_subscription}>
+  <{if $item.is_subscription_only}>
+
+    <!-- 定期購入商品の場合 -->
+    <{if $item.subscription_discount.has_item}>
+      <!-- 回数割引を設定している場合 -->
+      <{section name=i loop=$item.subscription_discount.list}>
+        <dl class="is_2">
+          <dt><{$item.subscription_discount.list[i].times}>回目価格</dt>
+          <dd><strong><{$item.subscription_discount.list[i].price|number_format}><span>円</span></strong></dd>
+        </dl>
+        <dl>
+          <dt>個数</dt>
+          <dd><{$item.subscription_discount.list[i].quantity|number_format}>個</dd>
+        </dl>
+        <{if $shop.is_point_enabled && $item.subscription_point !== 0}>
+          <!-- <p>
+            <{$item.subscription_discount.list[i].point|number_format}>ポイント獲得できます
+          </p> -->
+        <{/if}>
+      <{/section}>
+    <{else}>
+      <dl class="is_2">
+        <dt>定期購入価格</dt>
+        <dd><strong><{$item.subscription_price_html}><span>円</span></strong><small>（税込）</small></dd>
+      </dl>
+      <{if $shop.is_point_enabled && $item.point !== 0}>
+        <!-- <p><{$item.point_html}>ポイント獲得できます</p> -->
+      <{/if}>
+    <{/if}>
+
+    <{if $item.subscription_gift.has_item}>
+      <!-- 景品設定をしている場合 -->
+      <{section name=i loop=$item.subscription_gift.list}>
+        <div class="subscription-gift">
+          <img src="<{$item.subscription_gift.list[i].image_url}>" alt="<{$item.subscription_gift.list[i].name}>" width="80" height="auto">
+          <p><{$item.subscription_gift.list[i].times}>回目以降のご購入の方に<{$item.subscription_gift.list[i].name}>を差し上げます！<br><{$item.subscription_gift.list[i].description}></p>
+        </div>
+      <{/section}>
+    <{/if}>
+
+  <{elseif $item.is_subscription}>
+    <!-- 通常商品と定期購入の場合 -->
+
+    <!-- セールかどうか（通常商品のみ） -->
+    <{if $item.is_sale}>
+      <p class="sale-text">
+        <strong class="original"><{$item.original_price|number_format}><span class="unit">円</span></strong>
+        <br>
+        <span class="sale-rate">[<{$item.sale_rate}>％OFF]</span>
+        <strong class="sale-price"><{$item.price_html}><span class="unit">円</span></strong><span class="tax">（税込）</span>
+      </p>
+      <{if $item.has_sale_period}>
+        <dl class="is_2">
+          <dt>セール期間</dt>
+          <dd>
+            <{if $item.sale_start.year}>
+              <{$item.sale_start.year}>年<{$item.sale_start.month}>月<{$item.sale_start.day}>日
+            <{/if}>
+            <{if $item.sale_end.year}>
+              <{$item.sale_end.year}>年<{$item.sale_end.month}>月<{$item.sale_end.day}>日
+            <{/if}>
+          </dd>
+        </dl>
+      <{/if}>
+    <{else}>
+      <dl class="is_2">
+        <dt>販売価格</dt>
+        <dd><strong><{$item.price_html}><span class="unit">円</span></strong><small>（税込）</small></dd>
+      </dl>
+    <{/if}>
+
+    <!-- 定期購入商品 -->
+     <dl class="is_2">
+      <dt>販売価格</dt>
+      <dd><strong><{$item.subscription_price_html}><span class="unit">円</span></strong><small>（定期購入時）</small></dd>
+    </dl>
+
+  <{/if}>
+<{else}>
+
+  <{if $item.is_sale}>
+    <dl class="is_2">
+      <dt>販売価格</dt>
+      <dd>
+        <strong class="original"><{$item.original_price|number_format}><span class="unit">円</span></strong>
+        <br>
+        <span class="sale-rate">[<{$item.sale_rate}>％OFF]</span>
+        <strong class="sale-price"><{$item.price_html}><span class="unit">円</span></strong><span class="tax">（税込）</span>
+      </dd>
+    </dl>
+    <{if $item.has_sale_period}>
+      <dl class="is_2">
+        <dt>セール期間</dt>
+        <dd>
+          <{if $item.sale_start.year}>
+            <{$item.sale_start.year}>年<{$item.sale_start.month}>月<{$item.sale_start.day}>日
+          <{/if}>
+          <{if $item.sale_end.year}>
+            <{$item.sale_end.year}>年<{$item.sale_end.month}>月<{$item.sale_end.day}>日
+          <{/if}>
+        </dd>
+      </dl>
+    <{/if}>
+  <{else}>
+    <{if $item.is_member_price}>
+      <dl class="is_2">
+        <dt>通常価格</dt>
+        <dd><strong><{$item.original_price|number_format}><span class="unit">円</span></strong><small class="tax">（税込）</small></dd>
+      </dl>
+    <{/if}>
+    <dl class="is_2">
+      <dt>販売価格</dt>
+      <dd><strong><{$item.price_html}><span class="unit">円</span></strong><small class="tax">（税込）</small></dd>
+    </dl>
+  <{/if}>
+
+<{/if}>

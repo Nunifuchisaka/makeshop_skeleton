@@ -1,0 +1,42 @@
+<{if $item.is_within_sell_period}>
+  <!-- 販売期間中の場合 -->
+
+  <{if $item.is_soldout}>
+    <!-- 売り切れの場合 -->
+    <div class="favorite-wrap">
+      <{if $item.is_restock_enabled}>
+        <div><a href="<{$item.restock_url}>" class="restock-btn btn">再入荷お知らせ</a></div>
+      <{else}>
+        <div class="disabled-btn btn">売り切れ</div>
+      <{/if}>
+      <div class="favorite">
+        <a href="<{$item.favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.is_favorite}>hide<{/if}>"></a>
+        <a href="<{$item.favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.is_favorite}>hide<{/if}>"></a>
+      </div>
+    </div>
+  <{else}>
+    <!-- 在庫がある場合 -->
+    <%- include("_is_stock_display") %>
+    <{if $item.has_option}>
+      <{if $item.is_option_image}>>
+        <%- include("_option-image") %>
+      <{elseif $item.is_option_sku}>
+        <%- include("_sku") %>
+      <{else}>
+        <%- include("_item-option") %>
+      <{/if}>
+    <{else}>
+      <%- include("_is_subscription_only") %>
+    <{/if}><!-- /if $item.has_option -->
+  <{/if}>
+<{else}>
+  <!-- 販売期間外の場合 -->
+  <div class="favorite-wrap">
+    <p class="disabled-btn btn">
+      現在購入いただけません
+    </p>
+    <div class="favorite">
+      <a href="<{$item.favorite_entry_url}>"></a>
+    </div>
+  </div>
+<{/if}>

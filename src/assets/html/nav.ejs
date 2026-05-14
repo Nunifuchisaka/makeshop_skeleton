@@ -1,0 +1,25 @@
+<nav class="nav_1">
+  <ul>
+    <{if $member.is_logged_in}>
+      <li><a href="<{$url.favorite}>">お気に入り</a></li>
+      <li><a href="<{$url.mypage}>">マイページ</a></li>
+      <li><a href="<{$url.logout}>">ログアウト</a></li>
+    <{else}>
+      <li><a href="<{$url.login}>">ログイン</a></li>
+      <li><a href="<{$url.member_entry}>">新規会員登録</a></li>
+    <{/if}>
+    <li><a href="<{$url.guide}>">ご利用案内</a></li>
+    <li class="is_search">
+      <label for="search__toggle" aria-label="検索窓を開く"></label>
+    </li>
+    <li class="is_contact">
+      <a href="/view/page/contact">お問い合わせ</a>
+    </li>
+    <li class="is_cart">
+      <a href="<{$url.cart}>" class="icon_cart_2">
+        カート
+        <{if $cart.has_item}><span class="num"><{$cart.total_quantity}></span><{/if}>
+      </a>
+    </li>
+  </ul>
+</nav>

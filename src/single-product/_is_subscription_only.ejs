@@ -1,0 +1,31 @@
+<!-- オプションなしの定期購入-->
+<{if $item.is_subscription_only}>
+  <div class="modal-open">
+    <a href="<{$item.cart_entry_subscription_url}>" class="subscription-only subscription-btn btn">定期購入する</a>
+    <div class="favorite">
+      <a href="<{$item.favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.is_favorite}>hide<{/if}>"></a>
+      <a href="<{$item.favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.is_favorite}>hide<{/if}>"></a>
+    </div>
+  </div>
+<{elseif $item.is_subscription}>
+  <div class="subscription-wrap">
+    <div class="modal-open">
+      <a href="<{$item.cart_entry_url}>" class="button_7 btn" data-button-id="cart-order">カートに入れる</a>
+      <div class="favorite">
+        <a href="<{$item.favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.is_favorite}>hide<{/if}>"></a>
+        <a href="<{$item.favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.is_favorite}>hide<{/if}>"></a>
+      </div>
+    </div>
+    <div class="modal-open">
+      <a href="<{$item.cart_entry_subscription_url}>" class="subscription-btn btn">定期購入する</a>
+    </div>
+  </div>
+<{else}>
+  <div class="modal-open">
+    <a href="<{$item.cart_entry_url}>" class="button_7 btn cart-order-btn" data-button-id="cart-order">カートに入れる</a>
+    <div class="favorite">
+      <a href="<{$item.favorite_entry_url}>" class="favorite-icon favorite-off <{if $item.is_favorite}>hide<{/if}>"></a>
+      <a href="<{$item.favorite_remove_url}>" class="favorite-icon favorite-on <{if !$item.is_favorite}>hide<{/if}>"></a>
+    </div>
+  </div>
+<{/if}>

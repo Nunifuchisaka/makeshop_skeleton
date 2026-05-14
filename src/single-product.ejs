@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+<{$module.head}>
+
+<title><{$item.name}>｜<{$shop.name}></title>
+<meta property="og:title" content="<{$item.name}>">
+<meta name="description" content="<{$page.description}>">
+<meta property="og:description" content="<{$page.description}>">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css" integrity="sha512-rd0qOHVMOcez6pLWPVFIv7EfSdGKLt+eafXh4RO/12Fgr41hDQxfGvoi1Vy55QIVcQEujUE1LQrATCLl2Fs+ag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "ホーム",
+    "item": "https://www.shuetsu.co.jp/"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "商品ラインアップ",
+    "item": "https://www.shuetsu.co.jp/view/category/all_items"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": "<{$item.name}>",
+    "item": "https://www.shuetsu.co.jp<{$item.url}>"
+  }]
+}
+</script>
+
+<{if $item.review.has_item}>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "<{$item.name|escape:json}>",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "bestRating": "5",
+    "ratingCount": "<{$item.review.total_count|escape:json}>",
+    "ratingValue": "<{$item.review.average|escape:json}>"
+  }
+}
+</script>
+<{/if}>
+</head>
+<body class="single-product">
+<{$module.body_top}>
+<{$module.header}>
+
+<div id="wrapper" class="wrapper_1">
+
+  <main id="main-1">
+    <{$module.search_1}>
+
+    <{if $item.breadcrumb_list_group.has_item}>
+      <{* --- 1. まず「ベースカテゴリー」だけを探して一番上に出力 --- *}>
+      <{section name=i loop=$item.breadcrumb_list_group.list}>
+        <{if $item.breadcrumb_list_group.list[i].is_base_category}>
+          <nav class="breadcrumb_1" aria-label="パンくずリスト">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a href="<{$url.top}>" itemprop="item"><span itemprop="name">ホーム</span></a>
+                <meta itemprop="position" content="1" />
+              </li>
+              <{section name=j loop=$item.breadcrumb_list_group.list[i].list}>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                  <a href="<{$item.breadcrumb_list_group.list[i].list[j].url}>" itemprop="item">
+                    <span itemprop="name"><{$item.breadcrumb_list_group.list[i].list[j].name}></span>
+                  </a>
+                </li>
+              <{/section}>
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span itemprop="item" aria-current="page" class="is_current">
+                  <span itemprop="name"><{$item.name}></span>
+                </span>
+              </li>
+            </ol>
+          </nav>
+        <{/if}>
+      <{/section}>
+      <{* --- 2. 保険：「ベース以外」のカテゴリーをその後に出力 --- *}>
+      <{section name=i loop=$item.breadcrumb_list_group.list}>
+        <{if !$item.breadcrumb_list_group.list[i].is_base_category}>
+          <nav class="breadcrumb_1" aria-label="パンくずリスト">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a href="<{$url.top}>" itemprop="item"><span itemprop="name">ホーム</span></a>
+                <meta itemprop="position" content="1" />
+              </li>
+              <{section name=j loop=$item.breadcrumb_list_group.list[i].list}>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                  <a href="<{$item.breadcrumb_list_group.list[i].list[j].url}>" itemprop="item">
+                    <span itemprop="name"><{$item.breadcrumb_list_group.list[i].list[j].name}></span>
+                  </a>
+                </li>
+              <{/section}>
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span itemprop="item" aria-current="page" class="is_current">
+                  <span itemprop="name"><{$item.name}></span>
+                </span>
+              </li>
+            </ol>
+          </nav>
+        <{/if}>
+      <{/section}>
+    <{/if}><!-- /パンくずリスト -->
+
+    <article class="article_2">
+      <div class="article_2__1">
+        <div class="article_2__1a"><div>
+
+          <%- include("single-product/_image") %>
+
+        </div></div><!-- /.article_2__1a -->
+        <div class="article_2__1b">
+
+          <%- include("single-product/_title") %>
+          <%- include("single-product/_review") %>
+
+          <div class="list_6">
+            <%- include("single-product/_price") %>
+            <{if $item.content}>
+              <dl><dt>内容量</dt><dd><{$item.content}></dd></dl>
+            <{/if}>
+            <{if $item.jan_code}>
+              <dl><dt>JANコード</dt><dd><{$item.jan_code}></dd></dl>
+            <{/if}>
+            <{if $item.original_code}>
+              <dl><dt>商品コード</dt><dd><{$item.original_code}></dd></dl>
+            <{/if}>
+          </div><!-- /.list_6 -->
+
+          <div class="div_2">
+            <dl>
+              <dt>数量</dt>
+              <dd class="js_quantity">
+                <button type="button" class="down">ー</button>
+                <input type="number" min="1" data-id="<{$item.quantity_id}>" value="<{$item.order_quantity_min}>">
+                <button type="button" class="up">＋</button>
+              </dd>
+            </dl>
+            <{if $item.is_favorite}>
+              <a href="<{$item.favorite_entry_url}>" class="btn-favorite is_not is_none">
+                お気に入りに追加
+              </a>
+              <a href="<{$item.favorite_remove_url}>" class="btn-favorite is_favorite">
+                お気に入りから削除
+              </a>
+            <{else}>
+              <a href="<{$item.favorite_entry_url}>" class="btn-favorite is_not">
+                お気に入りに追加
+              </a>
+              <a href="<{$item.favorite_remove_url}>" class="btn-favorite is_favorite is_none">
+                お気に入りから削除
+              </a>
+            <{/if}>
+          </div><!-- /.div_2 -->
+
+          <%- include("single-product/_add-cart") %>
+
+          <div class="paragraphs_2">
+            <p class="is_exclamation">
+              <a href="<{$url.guide}>">
+                オンラインストアご利用案内を見る
+              </a>
+            </p>
+            <p class="is_contact">
+              <a href="<{$item.contact_url}>">
+                この商品について問い合わせる
+              </a>
+            </p>
+            <p class="is_tel">
+              電話でのご注文 <a href="tel:0334585371">03-3458-5371</a>
+            </p>
+          </div><!-- /.paragraphs_2 -->
+
+        </div><!-- /.article_2__1b -->
+      </div><!-- /.article_2__1 -->
+      <div class="article_2__3">
+
+        <{if $item.description2}>
+          <div class="content_1">
+            <{$item.description2}>
+          </div>
+        <{/if}>
+
+        <%- include("single-product/_add_image") %>
+        <%- include("single-product/_info-list") %>
+
+        <{$module.group}>
+
+        <{$module.review}>
+
+        <{$module.checked}>
+
+      </div><!-- /.article_2__3 -->
+    </article><!-- /.article_2 -->
+
+    
+  </main>
+</div><!-- /#wrapper -->
+
+<{$module.footer}>
+
+<script src="/js/jqueryplugin/remodal/1.1.1/remodal.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js" integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<{if <%- MY_MEMBER_ID %> == $member.id || 'Developer' == $member.group_name}>
+<script src="<%- LOCAL_PATH %>assets/js/single-product.js?3" defer></script>
+<{else}>
+<script src="<%- ASSET_PATH %>assets/js/single-product.js?3" defer></script>
+<{/if}>
+</body>
+</html>

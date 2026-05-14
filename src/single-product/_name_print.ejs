@@ -1,0 +1,28 @@
+<!-- 名入れ -->
+<{if $item.is_name_print}>
+  <div class="nameprint-area">
+    <{if $item.name_print.has_item}>
+      <p class="nameprint-description">
+        <{$item.name_print.description}>
+      </p>
+      <{section name=i loop=$item.name_print.list}>
+        <div class="nameprint-title-wrap">
+          <p class="nameprint-title">
+            <{$item.name_print.list[i].title}><{if $item.name_print.list[i].is_required}><span>※必須</span><{/if}>
+          </p>
+        </div>
+        <div class="nameprint-text-wrap">
+          <p class="nameprint-text">
+            <{$item.name_print.list[i].html}>
+          </p>
+          <p class="nameprint-total">
+            最大<{$item.name_print.list[i].total_max}>文字／<{$item.name_print.list[i].row_max}>行まで
+          </p>
+          <p class="nameprint-character">
+            利用可能文字：<{$item.name_print.list[i].character_type}>
+          </p>
+        </div>
+      <{/section}>
+    <{/if}>
+  </div>
+<{/if}>

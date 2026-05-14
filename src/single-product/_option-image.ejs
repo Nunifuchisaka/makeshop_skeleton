@@ -1,0 +1,88 @@
+<!-- オプション画像ごとの表示 -->
+<div class="option-image-wrap">
+
+  <!-- オプション1の一覧 -->
+  <p><{$item.option_sku.option1_label}></p>
+  <div class="option-image-option1">
+    <{section name=i loop=$item.option_sku.list}>
+      <{if $item.option_sku.list[i.index_prev].name1 != $item.option_sku.list[i].name1}>
+        <a href="<{$item.option_sku.list[i].information_url}>" data-option-image-name1="<{$item.option_sku.list[i].name1}>">
+          <{if $item.option_sku.list[i].image_S != '' }>
+            <img src="<{$item.option_sku.list[i].image_S}>" class="option-image" loading="lazy">
+          <{else}>
+            <img src="/view/images/common/noimage.png" class="option-image" loading="lazy">
+          <{/if}>
+        </a>
+      <{/if}>
+    <{/section}>
+  </div>
+
+  <!-- オプション2の一覧 -->
+  <p><{$item.option_sku.option2_label}></p>
+  <div class="option-image-option2">
+    <{section name=i loop=$item.option_sku.list}>
+      <div data-option-image-name1="<{$item.option_sku.list[i].name1}>" class="option-image-option2-item <{if $item.option_sku.list[i].is_soldout}>option-image-soldout<{/if}>">
+        <div><{$item.option_sku.list[i].name2}></div>
+
+        <!-- 金額 -->
+        <{if $item.is_subscription_only}>
+          <p class="price">￥<{$item.option_sku.list[i].subscription_price|number_format}><span>（税込）</span></p>
+        <{elseif $item.is_subscription}>
+          <p class="price">定期：￥<{$item.option_sku.list[i].subscription_price|number_format}><span>（税込）</span></p>
+          <p class="price">￥<{$item.option_sku.list[i].price|number_format}><span>（税込）</span></p>
+        <{else}>
+          <p class="price">￥<{$item.option_sku.list[i].price|number_format}><span>（税込）</span></p>
+        <{/if}>
+
+        <!-- 在庫 -->
+        <{if $item.option_sku.list[i].is_soldout}>
+          <p class="item-stock item-stock-sku">品切れ</p>
+        <{elseif $item.option_sku.list[i].is_stock_unlimited}>
+          <p class="item-stock item-stock-sku">在庫あり</p>
+        <{elseif $item.option_sku.list[i].is_small_stock}>
+          <p class="item-stock item-stock-sku">残りわずか<span class="item-stock-count">／あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+        <{else}>
+          <p class="item-stock item-stock-sku"><span class="item-stock-count">あと<{$item.option_sku.list[i].stock_quantity}>個</span></p>
+        <{/if}>
+
+        <!-- カートに入れるボタン -->
+        <{if $item.is_subscription_only}>
+          <{if !$item.option_sku.list[i].is_soldout}>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_subscription_url}>" class="option-image-btn">定期購入する</a>
+            </div>
+          <{/if}>
+        <{elseif $item.is_subscription}>
+          <{if !$item.option_sku.list[i].is_soldout}>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_url}>" class="button_3 is_cart">カートに入れる</a>
+            </div>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_subscription_url}>" class="button_3 is_subscription">定期購入する</a>
+            </div>
+          <{/if}>
+        <{else}>
+          <{if $item.option_sku.list[i].is_soldout}>
+            <{if $item.is_restock_enabled}>
+              <div><a href="<{$item.option_sku.list[i].restock_url}>" class="option-image-btn option-image-restock-btn">再入荷お知らせ</a></div>
+            <{/if}>
+          <{else}>
+            <div class="modal-open">
+              <a href="<{$item.option_sku.list[i].cart_entry_url}>" class="button_3 is_cart">カートに入れる</a>
+            </div>
+          <{/if}>
+        <{/if}>
+
+      </div><!-- option-image-option2-item -->
+    <{/section}>
+  </div><!-- option-image-option2 -->
+
+  <div class="option-image-checkout-wrap">
+    <a href="#option-image-checkout" class="option-image-checkout-button">買い物カゴに入れる</a>
+    <{if !$item.is_subscription_only && $item.is_subscription}>
+      <a href="#option-image-checkout" class="option-image-checkout-button subscription">定期購入する</a>
+    <{/if}>
+    <a href="#option-image-checkout" class="option-image-restock-button" style="display:none;">再入荷お知らせ</a>
+  </div>
+
+</div><!-- option-image-wrap -->

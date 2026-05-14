@@ -1,0 +1,20 @@
+<nav class="breadcrumb_1" aria-label="パンくずリスト">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="<{$url.top}>" itemprop="item">
+        <span itemprop="name">ホーム</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <{section name=j loop=$item.breadcrumb_list_group.list[i].list}>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="<{$item.breadcrumb_list_group.list[i].list[j].url}>" itemprop="item">
+          <span itemprop="name" <{if $item.breadcrumb_list_group.list[i].list[j].is_current}>aria-current="page"<{/if}>>
+            <{$item.breadcrumb_list_group.list[i].list[j].name}>
+          </span>
+        </a>
+        <meta itemprop="position" content="<{$item.breadcrumb_list_group.list[i].list[j].index}>" />
+      </li>
+    <{/section}>
+  </ol>
+</nav><!-- /.breadcrumb_1 -->

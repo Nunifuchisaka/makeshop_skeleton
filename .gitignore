@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+*.psd
+*.ai
+/gitignore/
+.sass-cache/
+/node_modules/
+/tmp/
+/release.zip
+/release/
+img2webp/**/*.webp
+img2webp/**/*.jpg
+img2webp/**/*.jpeg
+img2webp/**/*.png

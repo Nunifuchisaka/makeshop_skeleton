@@ -1,0 +1,13 @@
+<!-- 予約販売 -->
+<{if $item.is_reservation_sale}>
+  <{if $item.has_release_date}>
+    <{if !$item.is_released}>
+      <dl>
+        <dt>販売開始</dt>
+        <dd><{$item.release_date.year}>年<{$item.release_date.month}>月<{$item.release_date.day}>日</dd>
+      </dl>
+      <p><{$item.release_date_note}></p>
+    <{/if}>
+  <{/if}>
+  <p><{$item.reservation_sale_note}></p>
+<{/if}>
