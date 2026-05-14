@@ -5,7 +5,14 @@
 
 ## 開発について
 
-[クリエイターモード タグリファレンス](https://reference.makeshop.jp/creator-mode/contents/common/index.html)
+* makeshopはlocalにインストールできません。
+* CSVのエクスポートとインポートが正常に動作しない場合があります。
+* 具体的なタグは[クリエイターモード タグリファレンス](https://reference.makeshop.jp/creator-mode/contents/common/index.html)を参照ください。
+
+webpackは以下のコマンドで実行してください。
+```
+npm start
+```
 
 ### localのファイルを読み込む
 特定のメンバーIDまたはメンバーグループ名で条件分岐することでlocalのCSSやJSを読み込ませることができます。  
@@ -20,7 +27,6 @@ document.write("<script async src='<%- LOCAL_PATH %>browser-sync/browser-sync-cl
 <link rel="stylesheet" href="<%- ASSET_PATH %>assets/css/common.css">
 <{/if}>
 ```
-
 
 ### webpackでejsにグローバル定数を設定する
 LOCAL_PATHやASSET_PATHは定数にしておきます。
