@@ -1,0 +1,1 @@
+$(function(){$("#hoge .list_3").load("/view/category/hoge #main-list > li",function(e,i,t){"error"===i?console.error("読み込みエラーが発生しました: "+t.status+" "+t.statusText):$(this).find("li:gt(3)").remove()}),COMMON.$document.on("click",".singleReview",function(){var e=$(this).find(".singleReviewProductImageWrap > a").attr("href");window.location.href=e})});
