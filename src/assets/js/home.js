@@ -15,6 +15,6 @@ $(function() {
   COMMON.$document.on('click', '.singleReview', function() {
     const href = $(this).find('.singleReviewProductImageWrap > a').attr('href');
     window.location.href = href;
-  })
+  });
 
 });

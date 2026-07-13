@@ -16,11 +16,11 @@ export default class {
   #enable = () => {
     this.#$btnEnable.removeClass('is_none');
     this.#$btnDisable.addClass('is_none');
-  }
+  };
 
   #disable = () => {
     this.#$btnEnable.addClass('is_none');
     this.#$btnDisable.removeClass('is_none');
-  }
+  };
 
 }

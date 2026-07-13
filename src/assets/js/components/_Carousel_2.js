@@ -93,7 +93,7 @@ export default class {
     } else if (e.key === 'ArrowLeft' || e.keyCode === 37) {
       this.#prev();
     }
-  }
+  };
 
   #updateModal = () => {
     const $target = this.#$links.eq(this.#currentIndex);
@@ -103,15 +103,15 @@ export default class {
     this.#$modalImage.attr('src', url);
     this.#$modalCaption.text(caption);
     this.#swiperInstance.slideToLoop(this.#currentIndex);
-  }
+  };
 
   #next = () => {
     this.#currentIndex = (this.#currentIndex + 1) % this.#$links.length;
     this.#updateModal();
-  }
+  };
 
   #prev = () => {
     this.#currentIndex = (this.#currentIndex - 1 + this.#$links.length) % this.#$links.length;
     this.#updateModal();
-  }
+  };
 }

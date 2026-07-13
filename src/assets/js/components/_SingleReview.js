@@ -13,6 +13,6 @@ export default class {
   #click = () => {
     console.count('click');
     window.location.href = this.#href;
-  }
+  };
 
 }

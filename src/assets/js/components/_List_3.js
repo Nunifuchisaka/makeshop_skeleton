@@ -20,6 +20,6 @@ export default class {
 
   #click = () => {
     window.location.href = this.#href;
-  }
+  };
 
 }

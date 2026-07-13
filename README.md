@@ -9,9 +9,30 @@
 * CSVのエクスポートとインポートが正常に動作しない場合があります。
 * 具体的なタグは[クリエイターモード タグリファレンス](https://reference.makeshop.jp/creator-mode/contents/common/index.html)を参照ください。
 
-webpackは以下のコマンドで実行してください。
+依存関係をインストールしてください。
+
+```
+npm install
+```
+
+開発時は、非圧縮のHTML・CSS・JSを`dist_uncompressed/`へ出力し、BrowserSyncで配信します。
+
 ```
 npm start
+```
+
+公開用成果物を生成するときは、lint、非圧縮版ビルド、圧縮版ビルド、成果物検証を順番に実行します。
+
+```
+npm run build
+```
+
+個別の検証・自動修正には以下のコマンドを使用します。
+
+```
+npm run lint
+npm run lint:fix
+npm run verify:dist
 ```
 
 ### localのファイルを読み込む

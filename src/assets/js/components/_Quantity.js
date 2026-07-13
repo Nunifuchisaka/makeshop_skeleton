@@ -21,12 +21,12 @@ export default class {
     let current = parseInt(this.#$input.val()) || 0;
     // if (!isNaN(this.#max) && current >= this.#max) return;
     this.#$input.val(current + 1);
-  }
+  };
 
   #down = () => {
     let current = parseInt(this.#$input.val()) || 0;
     if (current <= 1) return;
     this.#$input.val(current - 1);
-  }
+  };
 
 }

@@ -1,6 +1,5 @@
 const SRC_DIR = './src';
 const DIST_DIR = './dist';
-const START_PATH = '';
 const DIST_UNCOMPRESSED_DIR = './dist_uncompressed';
 
 const BASE_SITE_DATA = {
@@ -26,12 +25,10 @@ const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const htmlMinifier = require('html-minifier-terser');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const sharp = require('sharp');
 const postcss = require('postcss');
 const cssnano = require('cssnano');
-const StylelintPlugin = require('stylelint-webpack-plugin');
 const SRC_PATH = path.resolve(__dirname, SRC_DIR);
 const DIST_PATH = path.resolve(__dirname, DIST_DIR);
 const DIST_UNCOMPRESSED_PATH = path.resolve(__dirname, DIST_UNCOMPRESSED_DIR);
@@ -39,9 +36,11 @@ const DIST_UNCOMPRESSED_PATH = path.resolve(__dirname, DIST_UNCOMPRESSED_DIR);
 /**
  * Webpack設定を生成する関数
  */
-const createConfig = ({ outputPath, mode }) => {
+const createConfig = ({ name, outputPath, mode, watch = false, serve = false, dependencies = [] }) => {
 
   const config = {
+    name,
+    dependencies,
     mode: mode,
     entry: {},
     output: {
@@ -81,7 +80,7 @@ const createConfig = ({ outputPath, mode }) => {
     plugins: [
       new RemoveEmptyScriptsPlugin(),
     ],
-    watch: 'development' == mode,
+    watch,
     watchOptions: {
       ignored: [
         '**/node_modules/**',
@@ -119,16 +118,17 @@ const createConfig = ({ outputPath, mode }) => {
     );
   });
 
+  // JS
+  glob.sync('**/*.js', { cwd: SRC_PATH, ignore: '**/_*.js' }).forEach(key => {
+    config.entry[key.replace('.js', '')] = path.resolve(SRC_PATH, key);
+  });
+  config.module.rules.push({
+    test: /\.js$/,
+    exclude: /node_modules/,
+    use: 'babel-loader'
+  });
+
   if ('production' == mode) {
-    // JS
-    glob.sync('**/*.js', { cwd: SRC_PATH, ignore: '**/_*.js' }).forEach(key => {
-      config.entry[key.replace('.js', '')] = path.resolve(SRC_PATH, key);
-    });
-    config.module.rules.push({
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: 'babel-loader'
-    });
     config.optimization = {
       minimize: true,
       minimizer: [ new TerserPlugin({ extractComments: false }) ],
@@ -182,33 +182,36 @@ const createConfig = ({ outputPath, mode }) => {
 
   // --- Development モード設定 (dist_uncompressed向け) ---
   if ('development' == mode) {
-    // BrowserSync
-    config.plugins.push(
-      new BrowserSyncPlugin({
-        host: 'localhost',
-        port: 3000,
-        https: true,
-        server: {
-          baseDir: [DIST_DIR],
-          middleware: [
-            function (req, res, next) {
-              res.setHeader('Access-Control-Allow-Origin', '*');
-              next();
-            }
-          ]
-        },
-        socket: {
-          domain: 'https://localhost:3000'
-        },
-        files: [
-          DIST_DIR + '/**/*.css',
-          DIST_DIR + '/**/*.js',
-        ],
-        startPath: '/_pagelist.html',
-        // open: false,
-        notify: false,
-      })
-    );
+    if (serve) {
+      // BrowserSync
+      config.plugins.push(
+        new BrowserSyncPlugin({
+          host: 'localhost',
+          port: 3000,
+          https: true,
+          server: {
+            baseDir: [DIST_UNCOMPRESSED_DIR],
+            middleware: [
+              function (req, res, next) {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                next();
+              }
+            ]
+          },
+          socket: {
+            domain: 'https://localhost:3000'
+          },
+          files: [
+            DIST_UNCOMPRESSED_DIR + '/**/*.css',
+            DIST_UNCOMPRESSED_DIR + '/**/*.js',
+            DIST_UNCOMPRESSED_DIR + '/**/*.html',
+          ],
+          startPath: '/_pagelist.html',
+          // open: false,
+          notify: false,
+        })
+      );
+    }
 
     // CSS (SCSS)
     glob.sync('**/*.scss', { cwd: SRC_PATH, ignore: '**/_*.scss' }).forEach(key => {
@@ -223,7 +226,7 @@ const createConfig = ({ outputPath, mode }) => {
           options: {
             importLoaders: 2,
             url: {
-              filter: (url, resourcePath) => {
+              filter: url => {
                 if (/(--pc|--sp|--exc)\.(jpg|jpeg|png|webp|svg|gif)(\?\d+)?$/i.test(url)) {
                   return false;
                 }
@@ -250,10 +253,6 @@ const createConfig = ({ outputPath, mode }) => {
     config.plugins.push(
       new MiniCssExtractPlugin({
         filename: '[name]',
-      }),
-      new StylelintPlugin({
-        files: [`${SRC_DIR}/**/*.scss`],
-        fix: true
       })
     );
   }
@@ -261,15 +260,25 @@ const createConfig = ({ outputPath, mode }) => {
   return config;
 };
 
-module.exports = [
-  // ① 非圧縮版ビルド (CSS, HTML) -> dist_uncompressed
-  createConfig({
-    outputPath: DIST_UNCOMPRESSED_PATH,
-    mode: 'development',
-  }),
-  // ② 圧縮版ビルド (JS, HTML, 画像変換, CSSコピー) -> dist
-  createConfig({
-    outputPath: DIST_PATH,
-    mode: 'production',
-  }),
-];
+module.exports = env => {
+  const isWatch = Boolean(env && env.watch);
+  const shouldServe = Boolean(env && env.serve);
+
+  return [
+    // ① 非圧縮版ビルド (CSS, JS, HTML) -> dist_uncompressed
+    createConfig({
+      name: 'development',
+      outputPath: DIST_UNCOMPRESSED_PATH,
+      mode: 'development',
+      watch: isWatch,
+      serve: shouldServe,
+    }),
+    // ② 圧縮版ビルド (JS, HTML, 画像変換, CSSコピー) -> dist
+    createConfig({
+      name: 'production',
+      dependencies: ['development'],
+      outputPath: DIST_PATH,
+      mode: 'production',
+    }),
+  ];
+};
